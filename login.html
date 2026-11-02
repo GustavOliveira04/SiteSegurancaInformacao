@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - CargoConnect</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="pagina-login">
+
+  <main class="login-caixa">
+    <h1 class="logo">CargoConnect</h1>
+    <p class="login-subtitulo">Acesse o sistema de gestão de galpões</p>
+
+    <form id="formLogin" action="inicio.html" method="post">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" autocomplete="username" required>
+
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" name="senha" autocomplete="current-password" required>
+
+      <p class="mensagem-erro" id="mensagemErro" hidden>E-mail ou senha incorretos.</p>
+
+      <button type="submit" class="botao botao-principal">Entrar</button>
+    </form>
+
+    <p class="login-aviso">Acesso restrito a usuários autorizados.</p>
+  </main>
+
+  <!-- TEMPORÁRIO: simula o login até existir o back-end. Apagar este script depois. -->
+  <script>
+    document.getElementById("formLogin").addEventListener("submit", function (evento) {
+      evento.preventDefault();
+      window.location.href = "inicio.html";
+    });
+  </script>
+
+</body>
+</html>
