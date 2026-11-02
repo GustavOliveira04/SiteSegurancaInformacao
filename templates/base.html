@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}Início{% endblock %} - CargoConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container">
+      <a href="{{ url_for('inicio') }}" class="logo">CargoConnect</a>
+
+      {% if g.usuario %}
+      <nav class="menu">
+        <a href="{{ url_for('inicio') }}">Início</a>
+        {% if g.usuario.perfil != 'cliente' %}
+        <a href="{{ url_for('galpoes') }}">Galpões</a>
+        {% endif %}
+        <a href="{{ url_for('inventario') }}">Inventário</a>
+        {% if g.usuario.perfil == 'administrador' %}
+        <a href="{{ url_for('contratos') }}">Contratos</a>
+        <a href="{{ url_for('admin') }}">Usuários</a>
+        {% endif %}
+      </nav>
+
+      <div class="header-usuario">
+        <span>{{ g.usuario.nome }} · {{ g.usuario.perfil|capitalize }}</span>
+        <form action="{{ url_for('logout') }}" method="post">
+          <button type="submit" class="botao botao-laranja">Sair</button>
+        </form>
+      </div>
+      {% else %}
+      <a href="{{ url_for('login') }}" class="botao botao-laranja">Entrar</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- Mensagens -->
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+      {% if mensagens %}
+      <div class="container">
+        {% for categoria, texto in mensagens %}
+        <p class="mensagem mensagem-{{ categoria }}">{{ texto }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block conteudo %}{% endblock %}
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 CargoConnect Logística - Trabalho acadêmico (Grupo 6)</p>
+  </footer>
+
+</body>
+</html>

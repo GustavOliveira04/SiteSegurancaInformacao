@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block titulo %}Erro {{ codigo }}{% endblock %}
+
+{% block conteudo %}
+    <section class="erro-pagina">
+      <div class="container">
+        <h1>{{ codigo }}</h1>
+        <p>{{ mensagem }}</p>
+        <a href="{{ url_for('inicio') }}" class="botao botao-principal">Voltar ao início</a>
+      </div>
+    </section>
+{% endblock %}

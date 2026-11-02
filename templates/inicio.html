@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block titulo %}Início{% endblock %}
+
+{% block conteudo %}
+
+    <!-- Destaque principal -->
+    <section class="hero">
+      <div class="container">
+
+        <div class="hero-texto">
+          <span class="etiqueta">ARMAZENAGEM E LOGÍSTICA</span>
+          <h1>Controle seus galpões <span>em um só lugar</span></h1>
+          <p>Acompanhe galpões, mercadorias de terceiros e contratos corporativos com informações organizadas e sempre atualizadas.</p>
+
+          <ul class="recursos">
+            <li>🏭 Gestão de Galpões</li>
+            <li>📦 Inventário de Terceiros</li>
+            <li>📄 Contratos Corporativos</li>
+            <li>🔒 Controle de Acesso</li>
+          </ul>
+
+          <div class="hero-botoes">
+            {% if g.usuario.perfil == 'cliente' %}
+            <a href="{{ url_for('inventario') }}" class="botao botao-principal">Ver meu inventário</a>
+            {% else %}
+            <a href="{{ url_for('galpoes') }}" class="botao botao-principal">Ver galpões</a>
+            <a href="{{ url_for('inventario') }}" class="botao botao-contorno">Ver inventário</a>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="resumo">
+          {% if g.usuario.perfil == 'cliente' %}
+          <h2>Resumo do seu estoque</h2>
+          <table class="tabela">
+            <thead>
+              <tr>
+                <th>Galpão</th>
+                <th>Itens</th>
+                <th>Paletes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for linha in resumo %}
+              <tr>
+                <td>{{ linha.galpao }}</td>
+                <td>{{ linha.itens }}</td>
+                <td>{{ linha.paletes }}</td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="3">Nenhuma mercadoria armazenada.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <h2>Resumo dos galpões</h2>
+          <table class="tabela">
+            <thead>
+              <tr>
+                <th>Galpão</th>
+                <th>Cidade</th>
+                <th>Ocupação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for linha in resumo %}
+              <tr>
+                <td>{{ linha.nome }}</td>
+                <td>{{ linha.cidade }}</td>
+                <td>{{ linha.ocupacao|int }}%</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% endif %}
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Clientes -->
+    {% if empresas %}
+    <section class="clientes">
+      <div class="container">
+        <h2>Empresas que armazenam conosco</h2>
+        <div class="clientes-lista">
+          {% for empresa in empresas %}
+          <div class="cliente">{{ empresa.empresa }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
+{% endblock %}

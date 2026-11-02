@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block titulo %}Nova mercadoria{% endblock %}
+
+{% block conteudo %}
+    <section class="pagina">
+      <div class="container">
+
+        <div class="pagina-topo">
+          <h1>Nova mercadoria</h1>
+        </div>
+
+        <div class="caixa caixa-topo">
+          <form class="formulario" method="post" action="{{ url_for('novaMercadoria') }}" enctype="multipart/form-data">
+
+            <div class="formulario-grade">
+              <div>
+                <label for="codigo">Código</label>
+                <input type="text" id="codigo" name="codigo" maxlength="30" required>
+              </div>
+              <div>
+                <label for="descricao">Descrição</label>
+                <input type="text" id="descricao" name="descricao" maxlength="120" required>
+              </div>
+              <div>
+                <label for="quantidade">Quantidade</label>
+                <input type="number" id="quantidade" name="quantidade" min="1" required>
+              </div>
+              <div>
+                <label for="paletes">Paletes ocupados</label>
+                <input type="number" id="paletes" name="paletes" min="1" required>
+              </div>
+              <div>
+                <label for="galpaoId">Galpão</label>
+                <select id="galpaoId" name="galpaoId" required>
+                  {% for galpao in galpoes %}
+                  <option value="{{ galpao.id }}">{{ galpao.nome }} - {{ galpao.cidade }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div>
+                <label for="contratoId">Empresa (contrato)</label>
+                <select id="contratoId" name="contratoId" required>
+                  {% for contrato in contratos %}
+                  <option value="{{ contrato.id }}">{{ contrato.empresa }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <label for="comprovante">Comprovante de entrada (PDF, PNG ou JPG, até 2 MB)</label>
+            <input type="file" id="comprovante" name="comprovante" accept=".pdf,.png,.jpg,.jpeg">
+
+            <button type="submit" class="botao botao-principal">Salvar</button>
+            <a href="{{ url_for('inventario') }}" class="botao botao-contorno">Cancelar</a>
+          </form>
+        </div>
+
+      </div>
+    </section>
+{% endblock %}
