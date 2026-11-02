@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block titulo %}Contratos{% endblock %}
+
+{% block conteudo %}
+    <section class="pagina">
+      <div class="container">
+
+        <div class="pagina-topo">
+          <h1>Contratos corporativos</h1>
+        </div>
+
+        <div class="tabela-rolagem">
+          <table class="tabela">
+            <thead>
+              <tr>
+                <th>Empresa</th>
+                <th>CNPJ</th>
+                <th>Responsável</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Vigência</th>
+                <th>Valor mensal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for contrato in contratos %}
+              <tr>
+                <td>{{ contrato.empresa }}</td>
+                <td>{{ contrato.cnpj }}</td>
+                <td>{{ contrato.responsavel }}</td>
+                <td>{{ contrato.email }}</td>
+                <td>{{ contrato.telefone }}</td>
+                <td>{{ contrato.dataInicio|dataBr }} a {{ contrato.dataFim|dataBr }}</td>
+                <td>{{ contrato.valorMensal|moeda }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+{% endblock %}

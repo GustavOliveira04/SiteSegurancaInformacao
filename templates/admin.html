@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block titulo %}Usuários{% endblock %}
+
+{% block conteudo %}
+    <section class="pagina">
+      <div class="container">
+
+        <div class="pagina-topo">
+          <h1>Administração de usuários</h1>
+        </div>
+
+        <form class="busca" method="get" action="{{ url_for('admin') }}">
+          <input type="text" name="q" value="{{ busca }}" placeholder="Buscar por nome ou e-mail">
+          <button type="submit" class="botao botao-contorno botao-pequeno">Buscar</button>
+        </form>
+
+        <div class="tabela-rolagem">
+          <table class="tabela">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Perfil</th>
+                <th>Empresa</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for usuario in usuarios %}
+              <tr>
+                <td>{{ usuario.id }}</td>
+                <td>{{ usuario.nome }}</td>
+                <td>{{ usuario.email }}</td>
+                <td><span class="etiqueta">{{ usuario.perfil|capitalize }}</span></td>
+                <td>{{ usuario.empresa or '-' }}</td>
+                <td>
+                  {% if usuario.id != g.usuario.id %}
+                  <form method="post" action="{{ url_for('excluirUsuario', usuarioId=usuario.id) }}" onsubmit="return confirm('Excluir este usuário?');">
+                    <button type="submit" class="botao botao-perigo botao-pequeno">Excluir</button>
+                  </form>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% if not usuarios %}
+          <p class="vazio">Nenhum usuário encontrado.</p>
+          {% endif %}
+        </div>
+
+        <div class="caixa">
+          <h2>Novo usuário</h2>
+          <form class="formulario" method="post" action="{{ url_for('criarUsuario') }}">
+            <div class="formulario-grade">
+              <div>
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" maxlength="100" required>
+              </div>
+              <div>
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" maxlength="120" required>
+              </div>
+              <div>
+                <label for="senha">Senha (mínimo 8 caracteres)</label>
+                <input type="password" id="senha" name="senha" minlength="8" autocomplete="new-password" required>
+              </div>
+              <div>
+                <label for="perfil">Perfil</label>
+                <select id="perfil" name="perfil" required>
+                  <option value="cliente">Cliente</option>
+                  <option value="operador">Operador</option>
+                  <option value="administrador">Administrador</option>
+                </select>
+              </div>
+              <div>
+                <label for="contratoId">Empresa (somente para clientes)</label>
+                <select id="contratoId" name="contratoId">
+                  <option value="">-</option>
+                  {% for contrato in contratos %}
+                  <option value="{{ contrato.id }}">{{ contrato.empresa }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="botao botao-principal">Criar usuário</button>
+          </form>
+        </div>
+
+      </div>
+    </section>
+{% endblock %}

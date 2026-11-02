@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block titulo %}Galpões{% endblock %}
+
+{% block conteudo %}
+    <section class="pagina">
+      <div class="container">
+
+        <div class="pagina-topo">
+          <h1>Galpões</h1>
+        </div>
+
+        <div class="tabela-rolagem">
+          <table class="tabela">
+            <thead>
+              <tr>
+                <th>Galpão</th>
+                <th>Cidade</th>
+                <th>Endereço</th>
+                <th>Capacidade (paletes)</th>
+                <th>Ocupados</th>
+                <th>Ocupação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for galpao in galpoes %}
+              <tr>
+                <td>{{ galpao.nome }}</td>
+                <td>{{ galpao.cidade }}</td>
+                <td>{{ galpao.endereco }}</td>
+                <td>{{ galpao.capacidade }}</td>
+                <td>{{ galpao.ocupados }}</td>
+                <td>{{ galpao.ocupacao|int }}%</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+{% endblock %}

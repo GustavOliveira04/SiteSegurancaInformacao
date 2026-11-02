@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block titulo %}Inventário{% endblock %}
+
+{% block conteudo %}
+    <section class="pagina">
+      <div class="container">
+
+        <div class="pagina-topo">
+          <h1>Inventário de mercadorias</h1>
+          {% if g.usuario.perfil != 'cliente' %}
+          <a href="{{ url_for('novaMercadoria') }}" class="botao botao-principal botao-pequeno">Nova mercadoria</a>
+          {% endif %}
+        </div>
+
+        <form class="busca" method="get" action="{{ url_for('inventario') }}">
+          <input type="text" name="q" value="{{ busca }}" placeholder="Buscar por código ou descrição">
+          <button type="submit" class="botao botao-contorno botao-pequeno">Buscar</button>
+        </form>
+
+        <div class="tabela-rolagem">
+          <table class="tabela">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Descrição</th>
+                {% if g.usuario.perfil != 'cliente' %}
+                <th>Empresa</th>
+                {% endif %}
+                <th>Galpão</th>
+                <th>Qtd.</th>
+                <th>Paletes</th>
+                <th>Entrada</th>
+                <th>Comprovante</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in mercadorias %}
+              <tr>
+                <td>{{ item.codigo }}</td>
+                <td>{{ item.descricao }}</td>
+                {% if g.usuario.perfil != 'cliente' %}
+                <td>{{ item.empresa }}</td>
+                {% endif %}
+                <td>{{ item.galpao }}</td>
+                <td>{{ item.quantidade }}</td>
+                <td>{{ item.paletes }}</td>
+                <td>{{ item.entradaEm|dataBr }}</td>
+                <td>
+                  {% if item.comprovante %}
+                  <a href="{{ url_for('comprovante', mercadoriaId=item.id) }}" target="_blank">Ver</a>
+                  {% else %}
+                  -
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% if not mercadorias %}
+          <p class="vazio">Nenhuma mercadoria encontrada.</p>
+          {% endif %}
+        </div>
+
+      </div>
+    </section>
+{% endblock %}
